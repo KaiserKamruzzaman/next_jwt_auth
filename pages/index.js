@@ -22,6 +22,7 @@ export default function Home() {
         name{" "}
         <input
           type="text"
+          placeholder="Enter Your Name"
           onChange={(e) => {
             setFormData({ ...formData, name: e.target.value });
           }}
@@ -30,6 +31,7 @@ export default function Home() {
         E-mail{" "}
         <input
           type="email"
+          placeholder="Enter Your Email"
           onChange={(e) => {
             setFormData({ ...formData, email: e.target.value });
           }}
@@ -38,6 +40,7 @@ export default function Home() {
         password{" "}
         <input
           type="password"
+          placeholder="Enter Your Password"
           onChange={(e) => {
             setFormData({ ...formData, password: e.target.value });
           }}
