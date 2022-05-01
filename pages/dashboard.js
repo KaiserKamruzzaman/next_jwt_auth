@@ -1,3 +1,22 @@
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import axios from "axios";
 export default function Dashboard() {
-  return <div>Welcome to dashboard</div>;
+  const testCookie = () => {
+    axios
+      .get("/api/getUsers", {
+        headers: {
+          Authorization: "helo from header",
+        },
+      })
+      .then((response) => {
+        console.log(response);
+      });
+  };
+  return (
+    <>
+      <div>Welcome to dashboard</div>
+      <button onClick={testCookie}>Test</button>
+    </>
+  );
 }
