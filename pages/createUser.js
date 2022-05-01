@@ -1,35 +1,33 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
-import jsonwebtoken from "jsonwebtoken";
 
-export default function Home() {
-  const router = useRouter();
+export default function CreateUser() {
   const [formData, setFormData] = useState({
+    name: "",
     email: "",
     password: "",
   });
-  //console.log(formData);
   const submitFormHandler = (e) => {
     e.preventDefault();
-    axios
-      .post("/api/auth", { formData })
-      .then((response) => {
-        console.log(response);
-        if (response.status === 200) {
-          router.push("/dashboard");
-        }
-      })
-      .catch((error) => {
-        if (error.response && error.response.status === 403) {
-          alert("unauthorize user...");
-        }
-      });
+    axios.post("/api/createUser", { formData }).then((response) => {
+      console.log(response);
+      //router.push("/dashboard");
+    });
   };
   return (
-    <div>
-      <h1>Hello Nahid..</h1>
+    <>
+      <div>Welcome to dashboard</div>
       <form onSubmit={submitFormHandler}>
+        name{" "}
+        <input
+          type="text"
+          placeholder="Enter Your Name"
+          onChange={(e) => {
+            setFormData({ ...formData, name: e.target.value });
+          }}
+        />{" "}
+        <br /> <br />
         E-mail{" "}
         <input
           type="email"
@@ -48,8 +46,8 @@ export default function Home() {
           }}
         />{" "}
         <br />
-        <button type="submit">Log In </button>
+        <button type="submit">Submit</button>
       </form>
-    </div>
+    </>
   );
 }
