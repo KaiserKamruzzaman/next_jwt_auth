@@ -23,7 +23,7 @@ export default async function handler(req, res) {
       },
       secret
     );
-    console.log(token);
+    //console.log(token);
     const serialised = serialize("MyJwtCookie", token, {
       httpOnly: true,
       maxAge: 3600,
