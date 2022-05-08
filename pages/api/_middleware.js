@@ -25,4 +25,5 @@ export async function middleware(req) {
       return NextResponse.redirect(url);
     }
   }
+  return NextResponse.next();
 }
