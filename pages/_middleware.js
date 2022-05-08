@@ -5,9 +5,9 @@ export async function middleware(req, ev) {
   const { cookies } = req;
   const secret = process.env.SECRET_TOKEN;
   const jwt = cookies.MyJwtCookie;
-  console.log(jwt);
+  //console.log(jwt);
   const url = req.nextUrl.clone();
-  console.log(jwt);
+  //console.log(jwt);
   // if (!jwt && url.pathname.includes("/")) {
   //   return NextResponse.next();
   // }
@@ -19,7 +19,12 @@ export async function middleware(req, ev) {
   // if (!jwt && url.pathname.includes("/login")) {
   //   return NextResponse.next();
   // }
-  if (jwt && url.pathname !== "/login") {
+  if (url.pathname.includes("/api")) {
+    console.log("api called...");
+    return NextResponse.next();
+  }
+  console.log(url.pathname);
+  if (jwt && !url.pathname.includes("/login")) {
     console.log("ase ase....");
     try {
       const { payload: jwtData } = await jose.jwtVerify(
@@ -27,6 +32,7 @@ export async function middleware(req, ev) {
         new TextEncoder().encode(secret)
       );
       console.log(jwtData);
+      return NextResponse.next();
     } catch (error) {
       console.log("some error....");
       url.pathname = "/login";
@@ -34,11 +40,16 @@ export async function middleware(req, ev) {
     }
   }
 
-  if (url.pathname.includes("/api/auth")) {
-    return NextResponse.next();
-  }
+  // if (url.pathname.includes("/api/auth")) {
+  //   console.log("api called...");
+  //   return NextResponse.next();
+  // }
   if (!jwt && url.pathname !== "/login") {
     url.pathname = "/login";
     return NextResponse.redirect(url);
   }
+  // if (jwt && url.pathname === "/login") {
+  //   url.pathname = "/login";
+  //   return NextResponse.redirect(url);
+  // }
 }

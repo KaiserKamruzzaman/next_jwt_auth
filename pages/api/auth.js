@@ -17,7 +17,7 @@ export default async function handler(req, res) {
     console.log("user-found");
     const token = sign(
       {
-        exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30,
+        exp: Math.floor(Date.now() / 1000) + 60 * 60,
         email: user.email,
         name: user.name,
       },
