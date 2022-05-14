@@ -6,14 +6,12 @@ export async function middleware(req, ev) {
   const { cookies } = req;
   const secret = process.env.SECRET_TOKEN;
   const jwt = cookies.MyJwtCookie;
-  //console.log(jwt);
   const url = req.nextUrl.clone();
 
   if (url.pathname.includes("/api")) {
     console.log("api called...");
     return NextResponse.next();
   }
-  // console.log(url.pathname);
   if (!url.pathname.includes("/login")) {
     console.log("ase ase....");
     try {
