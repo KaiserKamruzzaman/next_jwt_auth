@@ -8,16 +8,13 @@ export async function middleware(req, ev) {
   const jwt = cookies.MyJwtCookie;
   //console.log(jwt);
   const url = req.nextUrl.clone();
-  // if (!jwt && url.pathname === "/login") {
-  //   return NextResponse.next();
-  // }
 
   if (url.pathname.includes("/api")) {
     console.log("api called...");
     return NextResponse.next();
   }
-  console.log(url.pathname);
-  if (jwt && !url.pathname.includes("/login")) {
+  // console.log(url.pathname);
+  if (!url.pathname.includes("/login")) {
     console.log("ase ase....");
     try {
       const { payload: jwtData } = await jose.jwtVerify(
@@ -44,30 +41,14 @@ export async function middleware(req, ev) {
         url.pathname = "/dashboard";
         return NextResponse.redirect(url);
       } catch (error) {
-        const serialised = serialize("MyJwtCookie", null, {
-          httpOnly: true,
-          secure: process.env.NODE_ENV !== "development",
-          sameSite: "strict",
-          maxAge: -1,
-          path: "/",
-        });
+        console.log("bhejal login...");
+
+        return NextResponse.next();
       }
     } else {
       return NextResponse.next();
     }
   }
-  if (!jwt && url.pathname !== "/login") {
-    url.pathname = "/login";
-    return NextResponse.redirect(url);
-  }
 
-  // if (url.pathname.includes("/api/auth")) {
-  //   console.log("api called...");
-  //   return NextResponse.next();
-  // }
-
-  // if (jwt && url.pathname === "/login") {
-  //   url.pathname = "/login";
-  //   return NextResponse.redirect(url);
-  // }
+  return NextResponse.next();
 }
